@@ -1,0 +1,31 @@
+name: SSH Integration Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  integration-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install sshpass
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y sshpass
+
+      - name: Deploy on VM
+        env:
+          VM_HOST: ${{ secrets.SSH_HOST }}
+          VM_USER: ${{ secrets.SSH_USER }}
+          VM_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+        run: bash deploy.sh
+
+      - name: Test deployment
+        env:
+          VM_HOST: ${{ secrets.SSH_HOST }}
+          VM_USER: ${{ secrets.SSH_USER }}
+          VM_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+        run: bash test_deploy.sh
