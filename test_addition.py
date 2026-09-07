@@ -1,5 +1,5 @@
 import unittest
-from exo2.addition import addition
+from addition import addition
 
 class TestAddition(unittest.TestCase):
     def test_deux_positifs(self):
